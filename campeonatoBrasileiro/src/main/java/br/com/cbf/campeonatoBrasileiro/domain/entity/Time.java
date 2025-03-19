@@ -20,5 +20,9 @@ public class Time {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    private String nome;
+    private String sigla;
+    private String uf;
+
 
 }
