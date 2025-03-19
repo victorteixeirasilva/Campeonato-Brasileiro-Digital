@@ -8,8 +8,8 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Table(name = "jogos")
 @Entity
+@Table(name = "jogos")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -18,7 +18,13 @@ public class Jogo   {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "time1_id", nullable = false)
     private Time time1;
+
+    @ManyToOne
+    @JoinColumn(name = "time2_id", nullable = false)
     private Time time2;
     private int golsTime1;
     private int golsTime2;
