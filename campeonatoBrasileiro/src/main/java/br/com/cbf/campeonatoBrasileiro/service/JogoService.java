@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class JogoService {
@@ -93,4 +94,8 @@ public class JogoService {
         return jogoRepository.findAll();
     }
 
+    public Jogo obterJogo(UUID id) {
+        return jogoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Jogo não encontrado!"));
+    }
 }
