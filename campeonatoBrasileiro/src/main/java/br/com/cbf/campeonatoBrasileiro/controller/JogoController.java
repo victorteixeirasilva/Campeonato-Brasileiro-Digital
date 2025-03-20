@@ -1,6 +1,8 @@
 package br.com.cbf.campeonatoBrasileiro.controller;
 
 import br.com.cbf.campeonatoBrasileiro.domain.dto.request.jogo.RequestJogoFinalizadoDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.response.jogo.ClassificacaoDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.response.jogo.ClassificacaoTimeDTO;
 import br.com.cbf.campeonatoBrasileiro.domain.dto.response.jogo.JogoResponseFinalizadoDTO;
 import br.com.cbf.campeonatoBrasileiro.domain.entity.Jogo;
 import br.com.cbf.campeonatoBrasileiro.service.JogoService;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/jogo")
@@ -31,18 +32,18 @@ public class JogoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Jogo> obterJogo(@PathVariable UUID id){
+    public ResponseEntity<Jogo> obterJogo(@PathVariable int id){
         return ResponseEntity.ok(service.obterJogo(id));
     }
 
     @PostMapping("/finalizar/{id}")
-    public ResponseEntity<JogoResponseFinalizadoDTO> finalizar(@PathVariable UUID id, @RequestBody RequestJogoFinalizadoDTO requestJogoFinalizadoDTO){
+    public ResponseEntity<JogoResponseFinalizadoDTO> finalizar(@PathVariable int id, @RequestBody RequestJogoFinalizadoDTO requestJogoFinalizadoDTO){
         return ResponseEntity.ok(service.finalizar(id, requestJogoFinalizadoDTO));
     }
 
-//    @GetMapping("/classificacao")
-//    public ResponseEntity<ClassificacaoDTO> classificacao(){
-//        return ResponseEntity.ok(service.obterClassificacao());
-//    }
+    @GetMapping("/classificacao")
+    public ResponseEntity<ClassificacaoDTO> classificacao(){
+        return ResponseEntity.ok(service.obterClassificacao());
+    }
 
 }

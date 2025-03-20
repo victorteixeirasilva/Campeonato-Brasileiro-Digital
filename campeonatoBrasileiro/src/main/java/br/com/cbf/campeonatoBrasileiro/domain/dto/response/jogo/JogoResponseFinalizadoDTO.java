@@ -14,7 +14,7 @@ import java.util.UUID;
 public class JogoResponseFinalizadoDTO {
 
     private String mensagem;
-    private UUID idJogo;
+    private int idJogo;
     private boolean finalizado;
 
 }

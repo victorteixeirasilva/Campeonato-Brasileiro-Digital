@@ -17,8 +17,8 @@ import java.util.UUID;
 @Setter
 public class Jogo   {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "time1_id", nullable = false)

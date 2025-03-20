@@ -1,19 +1,20 @@
 package br.com.cbf.campeonatoBrasileiro.service;
 
 import br.com.cbf.campeonatoBrasileiro.domain.dto.request.jogo.RequestJogoFinalizadoDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.response.jogo.ClassificacaoDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.response.jogo.ClassificacaoTimeDTO;
 import br.com.cbf.campeonatoBrasileiro.domain.dto.response.jogo.JogoResponseFinalizadoDTO;
 import br.com.cbf.campeonatoBrasileiro.domain.entity.Jogo;
 import br.com.cbf.campeonatoBrasileiro.domain.entity.Time;
 import br.com.cbf.campeonatoBrasileiro.repository.JogoRepository;
-import br.com.cbf.campeonatoBrasileiro.repository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class JogoService {
@@ -96,12 +97,12 @@ public class JogoService {
         return jogoRepository.findAll();
     }
 
-    public Jogo obterJogo(UUID id) {
+    public Jogo obterJogo(int id) {
         return jogoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Jogo não encontrado!"));
     }
 
-    public JogoResponseFinalizadoDTO finalizar(UUID id, RequestJogoFinalizadoDTO requestJogoFinalizadoDTO) {
+    public JogoResponseFinalizadoDTO finalizar(int id, RequestJogoFinalizadoDTO requestJogoFinalizadoDTO) {
         Jogo jogo = jogoRepository.findById(id).orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
 
         if (!jogo.isEncerrado()){
@@ -124,6 +125,67 @@ public class JogoService {
                         " Gols: " +
                         jogo.getGolsTime2() +
                         ")", jogo.getId(), jogo.isEncerrado());
+
+    }
+
+    public ClassificacaoDTO obterClassificacao() {
+        // (qtd vitorias * 3) + qtdeEmpates
+        ClassificacaoDTO classificacaoDTO = new ClassificacaoDTO();
+        final List<Time> times = timeService.findAll();
+        times.forEach(time -> {
+            List<Jogo> jogosMandante = jogoRepository.findByTime1AndEncerrado(time, true);
+            List<Jogo> jogosVisitante = jogoRepository.findByTime2AndEncerrado(time, true);
+            AtomicInteger vitorias = new AtomicInteger();
+            AtomicInteger empates = new AtomicInteger();
+            AtomicInteger derrotas = new AtomicInteger();
+            AtomicInteger golsSofridos = new AtomicInteger();
+            AtomicInteger golsMarcados = new AtomicInteger();
+
+            jogosMandante.forEach(jogo -> {
+                if (jogo.getGolsTime1() > jogo.getGolsTime2()) {
+                    vitorias.getAndIncrement();
+                } else if (jogo.getGolsTime1() < jogo.getGolsTime2()) {
+                    derrotas.getAndIncrement();
+                } else {
+                    empates.getAndIncrement();
+                }
+                golsMarcados.set(jogo.getGolsTime1());
+                golsSofridos.set(jogo.getGolsTime2());
+            });
+            jogosVisitante.forEach(jogo -> {
+                if (jogo.getGolsTime2() > jogo.getGolsTime1()) {
+                    vitorias.getAndIncrement();
+                } else if (jogo.getGolsTime2() < jogo.getGolsTime1()) {
+                    derrotas.getAndIncrement();
+                } else {
+                    empates.getAndIncrement();
+                }
+                golsMarcados.set(jogo.getGolsTime2());
+                golsSofridos.set(jogo.getGolsTime1());
+            });
+
+            ClassificacaoTimeDTO classificacaoTimeDTO = new ClassificacaoTimeDTO();
+            classificacaoTimeDTO.setTime(time.getNome());
+            classificacaoTimeDTO.setIdTime(time.getId());
+            classificacaoTimeDTO.setPontos((vitorias.get() * 3) + empates.get());
+            classificacaoTimeDTO.setDerrotas(derrotas.get());
+            classificacaoTimeDTO.setEmpates(empates.get());
+            classificacaoTimeDTO.setVitorias(vitorias.get());
+            classificacaoTimeDTO.setGolsMarcados(golsMarcados.get());
+            classificacaoTimeDTO.setGolsSofridos(golsSofridos.get());
+            classificacaoTimeDTO.setJogos(derrotas.get() + empates.get() + vitorias.get());
+
+            classificacaoDTO.getTimes().add(classificacaoTimeDTO);
+
+        });
+
+        Collections.sort(classificacaoDTO.getTimes(), Collections.reverseOrder());
+        int posicao = 1;
+        for (ClassificacaoTimeDTO time : classificacaoDTO.getTimes()) {
+            time.setPosicao(posicao++);
+        }
+
+        return classificacaoDTO;
 
     }
 }

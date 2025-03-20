@@ -11,15 +11,20 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ClassificacaoDTO {
+public class ClassificacaoTimeDTO implements Comparable<ClassificacaoTimeDTO>{
     private String time;
     private UUID idTime;
     private int posicao;
-    private int pontos;
+    private Integer pontos;
     private int jogos;
     private int vitorias;
     private int empates;
     private int derrotas;
     private int golsMarcados;
     private int golsSofridos;
+
+    @Override
+    public int compareTo(ClassificacaoTimeDTO o) {
+        return this.getPontos().compareTo(o.getPontos());
+    }
 }
