@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "9f73388f-a20e-431f-bde4-4c96cde54b92",
+		"name": "Campeonato-Brasileiro-Digital",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26691976"
+	},
+	"item": [
+		{
+			"name": "TimeController",
+			"item": [
+				{
+					"name": "getTimes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3040/api/time",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3040",
+							"path": [
+								"api",
+								"time"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTime",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3040/api/time/9e8718b1-0131-4950-9d54-d0f2f7e91ab4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3040",
+							"path": [
+								"api",
+								"time",
+								"9e8718b1-0131-4950-9d54-d0f2f7e91ab4"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addTime",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"São Paulo\",\r\n    \"sigla\": \"SPFC\",\r\n    \"uf\": \"SP\",\r\n    \"estadio\": \"Morumbi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3040/api/time",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3040",
+							"path": [
+								"api",
+								"time"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JogoController",
+			"item": [
+				{
+					"name": "gerarJogos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3040/api/jogo/gerar-jogos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3040",
+							"path": [
+								"api",
+								"jogo",
+								"gerar-jogos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finalizarJogo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"golsTime1\": 3,\r\n    \"golsTime2\": 2,\r\n    \"publicoPagante\": 55000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3040/api/jogo/finalizar/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3040",
+							"path": [
+								"api",
+								"jogo",
+								"finalizar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obterJogos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3040/api/jogo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3040",
+							"path": [
+								"api",
+								"jogo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Classificação",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3040/api/jogo/classificacao",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3040",
+							"path": [
+								"api",
+								"jogo",
+								"classificacao"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
