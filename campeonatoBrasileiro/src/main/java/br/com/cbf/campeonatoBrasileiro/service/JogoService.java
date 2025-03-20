@@ -89,4 +89,8 @@ public class JogoService {
         return jogo;
     }
 
+    public List<Jogo> obterJogos(){
+        return jogoRepository.findAll();
+    }
+
 }
