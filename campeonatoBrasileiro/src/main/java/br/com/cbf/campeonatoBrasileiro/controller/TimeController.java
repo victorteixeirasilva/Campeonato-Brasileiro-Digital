@@ -1,5 +1,7 @@
 package br.com.cbf.campeonatoBrasileiro.controller;
 
+import br.com.cbf.campeonatoBrasileiro.domain.dto.request.TimeRequestDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.response.TimeResponseOkDTO;
 import br.com.cbf.campeonatoBrasileiro.domain.entity.Time;
 import br.com.cbf.campeonatoBrasileiro.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,7 @@ public class TimeController {
     }
 
     @PostMapping
-    public ResponseEntity addTime(@RequestBody Time time){
-        service.cadastrarTime(time);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<TimeResponseOkDTO> addTime(@RequestBody TimeRequestDTO time){
+        return ResponseEntity.ok(service.cadastrarTime(time));
     }
 }

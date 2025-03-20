@@ -1,5 +1,7 @@
 package br.com.cbf.campeonatoBrasileiro.service;
 
+import br.com.cbf.campeonatoBrasileiro.domain.dto.request.TimeRequestDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.response.TimeResponseOkDTO;
 import br.com.cbf.campeonatoBrasileiro.domain.entity.Time;
 import br.com.cbf.campeonatoBrasileiro.repository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,30 @@ public class TimeService {
     @Autowired
     private TimeRepository repository;
 
-    public void cadastrarTime(Time time){
+    public TimeResponseOkDTO cadastrarTime(TimeRequestDTO timeRequestDTO){
+        Time time = requestToTime(timeRequestDTO);
         repository.save(time);
+        return toResposeDTO(time);
+    }
+
+    private TimeResponseOkDTO toResposeDTO(Time time) {
+        TimeResponseOkDTO timeResponseDTO = new TimeResponseOkDTO(
+                time.getId(),
+                time.getNome(),
+                time.getSigla(),
+                time.getUf()
+        );
+        return timeResponseDTO;
+    }
+
+    private Time requestToTime(TimeRequestDTO timeRequestDTO) {
+        Time time = new Time();
+
+        time.setNome(timeRequestDTO.nome());
+        time.setSigla(timeRequestDTO.sigla());
+        time.setUf(timeRequestDTO.uf());
+
+        return time;
     }
 
     public List<Time> listarTimes() {
