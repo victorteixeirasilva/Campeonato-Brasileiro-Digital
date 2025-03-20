@@ -1,7 +1,7 @@
 package br.com.cbf.campeonatoBrasileiro.controller;
 
-import br.com.cbf.campeonatoBrasileiro.domain.dto.request.TimeRequestDTO;
-import br.com.cbf.campeonatoBrasileiro.domain.dto.response.TimeResponseOkDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.request.time.TimeRequestDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.response.time.TimeResponseOkDTO;
 import br.com.cbf.campeonatoBrasileiro.domain.entity.Time;
 import br.com.cbf.campeonatoBrasileiro.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;

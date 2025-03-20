@@ -1,5 +1,7 @@
 package br.com.cbf.campeonatoBrasileiro.service;
 
+import br.com.cbf.campeonatoBrasileiro.domain.dto.request.jogo.RequestJogoFinalizadoDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.response.jogo.JogoResponseFinalizadoDTO;
 import br.com.cbf.campeonatoBrasileiro.domain.entity.Jogo;
 import br.com.cbf.campeonatoBrasileiro.domain.entity.Time;
 import br.com.cbf.campeonatoBrasileiro.repository.JogoRepository;
@@ -97,5 +99,31 @@ public class JogoService {
     public Jogo obterJogo(UUID id) {
         return jogoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Jogo não encontrado!"));
+    }
+
+    public JogoResponseFinalizadoDTO finalizar(UUID id, RequestJogoFinalizadoDTO requestJogoFinalizadoDTO) {
+        Jogo jogo = jogoRepository.findById(id).orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
+
+        if (!jogo.isEncerrado()){
+            jogo.setPublicoPagante(requestJogoFinalizadoDTO.publicoPagante());
+            jogo.setGolsTime1(requestJogoFinalizadoDTO.golsTime1());
+            jogo.setGolsTime2(requestJogoFinalizadoDTO.golsTime2());
+            jogo.setEncerrado(true);
+            jogoRepository.save(jogo);
+        } else {
+            throw new RuntimeException("Jogo já foi finalizado!");
+        }
+
+        return new JogoResponseFinalizadoDTO(
+                "Jogo sendo finalizado! (" +
+                        jogo.getTime1().getSigla() +
+                        " Gols: " +
+                        jogo.getGolsTime1() +
+                        " VS " +
+                        jogo.getTime2().getSigla() +
+                        " Gols: " +
+                        jogo.getGolsTime2() +
+                        ")", jogo.getId(), jogo.isEncerrado());
+
     }
 }

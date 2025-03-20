@@ -1,4 +1,4 @@
-package br.com.cbf.campeonatoBrasileiro.domain.dto.response;
+package br.com.cbf.campeonatoBrasileiro.domain.dto.response.time;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

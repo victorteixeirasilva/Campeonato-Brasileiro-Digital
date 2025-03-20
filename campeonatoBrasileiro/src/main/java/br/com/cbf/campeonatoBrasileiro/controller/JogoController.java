@@ -1,5 +1,7 @@
 package br.com.cbf.campeonatoBrasileiro.controller;
 
+import br.com.cbf.campeonatoBrasileiro.domain.dto.request.jogo.RequestJogoFinalizadoDTO;
+import br.com.cbf.campeonatoBrasileiro.domain.dto.response.jogo.JogoResponseFinalizadoDTO;
 import br.com.cbf.campeonatoBrasileiro.domain.entity.Jogo;
 import br.com.cbf.campeonatoBrasileiro.service.JogoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +34,15 @@ public class JogoController {
     public ResponseEntity<Jogo> obterJogo(@PathVariable UUID id){
         return ResponseEntity.ok(service.obterJogo(id));
     }
+
+    @PostMapping("/finalizar/{id}")
+    public ResponseEntity<JogoResponseFinalizadoDTO> finalizar(@PathVariable UUID id, @RequestBody RequestJogoFinalizadoDTO requestJogoFinalizadoDTO){
+        return ResponseEntity.ok(service.finalizar(id, requestJogoFinalizadoDTO));
+    }
+
+//    @GetMapping("/classificacao")
+//    public ResponseEntity<ClassificacaoDTO> classificacao(){
+//        return ResponseEntity.ok(service.obterClassificacao());
+//    }
 
 }
