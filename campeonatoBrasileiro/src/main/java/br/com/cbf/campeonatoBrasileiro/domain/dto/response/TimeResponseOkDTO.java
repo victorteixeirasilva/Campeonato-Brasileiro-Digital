@@ -17,4 +17,5 @@ public class TimeResponseOkDTO {
     private String nome;
     private String sigla;
     private String uf;
+    private String estadio;
 }

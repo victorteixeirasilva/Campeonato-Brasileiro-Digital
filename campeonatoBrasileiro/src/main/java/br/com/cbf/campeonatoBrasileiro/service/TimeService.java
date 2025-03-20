@@ -27,7 +27,8 @@ public class TimeService {
                 time.getId(),
                 time.getNome(),
                 time.getSigla(),
-                time.getUf()
+                time.getUf(),
+                time.getEstadio()
         );
         return timeResponseDTO;
     }
@@ -38,6 +39,7 @@ public class TimeService {
         time.setNome(timeRequestDTO.nome());
         time.setSigla(timeRequestDTO.sigla());
         time.setUf(timeRequestDTO.uf());
+        time.setEstadio(timeRequestDTO.estadio());
 
         return time;
     }
@@ -51,4 +53,7 @@ public class TimeService {
                 .orElseThrow(() -> new RuntimeException("Time não encontrado"));
     }
 
+    public List<Time> findAll() {
+        return repository.findAll();
+    }
 }

@@ -9,6 +9,7 @@ import java.util.UUID;
 public record TimeRequestDTO(
         String nome,
         String sigla,
-        String uf
+        String uf,
+        String estadio
 ) {
 }
